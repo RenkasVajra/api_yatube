@@ -4,6 +4,7 @@ from rest_framework.authtoken import views
 
 from .views import PostViewSet, CommentViewSet
 
+
 router = DefaultRouter()
 router.register(
     'posts', 
@@ -16,8 +17,6 @@ router.register(
     CommentViewSet,
     basename='comments'
     )
-
-
 
 urlpatterns = [
     path('v1/', include(router.urls)),
