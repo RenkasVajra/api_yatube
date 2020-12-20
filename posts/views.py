@@ -4,20 +4,20 @@ from django.shortcuts import get_object_or_404
 
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
-from .permissions import Read_only
+from .permissions import IsOwnerOrReadOnly
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    permission_classes = [Read_only, permissions.IsAuthenticated]
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated, Read_only] 
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly) 
     serializer_class = CommentSerializer
     
     def perform_create(self, serializer):
